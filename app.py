@@ -93,6 +93,10 @@ ALLOWED_REDIRECT_DOMAINS = {
     'yourdomain.com'
 }
 
+deployment_domain = os.environ.get('DEPLOYMENT_DOMAIN')
+if deployment_domain:
+    ALLOWED_REDIRECT_DOMAINS.add(deployment_domain)
+
 def is_safe_redirect_url(url):
     # Verificar si la URL es relativa (comienza sin esquema)
     if url.startswith('/'):
