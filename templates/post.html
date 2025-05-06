@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<article>
+    <h1 class="mb-4">{{ post.title }}</h1>
+    <p class="text-muted">Escrito por: {{ post.author }}</p>
+    
+    <div class="article-content mb-5">
+        {{ post.content }}
+    </div>
+    
+    <hr>
+    
+    <div class="comments-section mt-4">
+        <h3>Comentarios</h3>
+        
+        {% if comments %}
+            {% for comment in comments %}
+            <div class="comment-box">
+                <h5>{{ comment.author }} dijo:</h5>
+                <!-- Contenido sanitizado para prevenir XSS -->
+                <p>{{ comment.content|safe }}</p>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No hay comentarios aún. ¡Sé el primero!</p>
+        {% endif %}
+        
+        {% if username %}
+        <form action="{{ url_for('add_comment', post_id=post.id) }}" method="post" class="mt-4">
+            <!-- Token CSRF -->
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            
+            <div class="mb-3">
+                <label for="comment" class="form-label">Deja un comentario:</label>
+                <textarea class="form-control" id="comment" name="comment" rows="3" maxlength="1000" required></textarea>
+                <small class="form-text text-muted">Los comentarios son sanitizados antes de publicarse para prevenir XSS.</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Publicar Comentario</button>
+        </form>
+        {% else %}
+        <div class="alert alert-info mt-4">
+            <p>Para dejar un comentario, por favor <a href="{{ url_for('login') }}">inicia sesión</a>.</p>
+        </div>
+        {% endif %}
+        
+        <div class="card mt-4 bg-light">
+            <div class="card-header text-success">
+                <strong>✅ Protegido contra XSS (Cross-Site Scripting)</strong>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Esta página implementa sanitización de contenido HTML para prevenir ataques XSS.</p>
+                <p class="card-text">Las entradas del usuario son validadas y sanitizadas antes de almacenarse y mostrarse.</p>
+            </div>
+        </div>
+    </div>
+</article>
+{% endblock %}

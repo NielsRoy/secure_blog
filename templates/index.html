@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="blog-header py-3 text-center bg-dark text-white mb-4">
+    <div class="container">
+        <h1 class="display-4">Blog de CiberSeguridad</h1>
+        <p class="lead">Aprende sobre seguridad web con un sitio protegido contra vulnerabilidades comunes</p>
+    </div>
+</div>
+
+<div class="row mb-2">
+    {% for post in posts %}
+    <div class="col-md-6">
+        <div class="card mb-4 shadow-sm h-100">
+            <div class="card-body">
+                <h3 class="card-title">{{ post.title }}</h3>
+                <p class="card-text">{{ post.content|truncate(100) }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <a href="{{ url_for('view_post', post_id=post.id) }}" class="btn btn-sm btn-outline-primary">Leer más</a>
+                    </div>
+                    <small class="text-muted">Autor: {{ post.author }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="alert alert-success mt-4">
+    <h4 class="alert-heading">¡Sitio Seguro para Producción!</h4>
+    <p>Este blog implementa protecciones contra vulnerabilidades comunes:</p>
+    <ul>
+        <li>✅ Protección contra SQL Injection mediante parametrización de consultas</li>
+        <li>✅ Protección contra XSS mediante sanitización de entrada y escape automático</li>
+        <li>✅ Protección contra CSRF mediante tokens en formularios</li>
+        <li>✅ Protección contra Clickjacking con encabezados X-Frame-Options</li>
+        <li>✅ Protección contra Open Redirect con validación de URL</li>
+        <li>✅ Headers de seguridad completos implementados</li>
+    </ul>
+    <p>Usa este código como referencia para implementar buenas prácticas de seguridad en tus aplicaciones web.</p>
+</div>
+{% endblock %}

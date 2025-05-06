@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h2>⚠️ Advertencia de Redirección</h2>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <h4 class="alert-heading">Estás a punto de ser redirigido</h4>
+                    <p>Estás a punto de ser redirigido a la siguiente URL:</p>
+                    <div class="bg-light p-3 my-3 border rounded">
+                        <code>{{ redirect_url }}</code>
+                    </div>
+                </div>
+                
+                <h3 class="mt-4">Protección contra Open Redirect</h3>
+                <p>
+                    Esta página implementa protección contra vulnerabilidades de "Open Redirect" mediante
+                    la validación de URLs contra una lista blanca de dominios permitidos.
+                </p>
+                <p>
+                    Si la URL de destino no es segura, la redirección será bloqueada automáticamente.
+                </p>
+                
+                <h4>Las medidas de seguridad implementadas incluyen:</h4>
+                <ul>
+                    <li><strong>Lista blanca de dominios:</strong> Solo se permiten redirecciones a dominios confiables.</li>
+                    <li><strong>Validación de URLs:</strong> Se comprueba que la URL sea válida y segura.</li>
+                    <li><strong>Página de confirmación:</strong> Se muestra esta página intermedia para informar al usuario.</li>
+                    <li><strong>URLs relativas:</strong> Se permiten URLs relativas dentro del sitio.</li>
+                </ul>
+                
+                <div class="mt-4 d-flex justify-content-between">
+                    <a href="{{ url_for('index') }}" class="btn btn-secondary">Cancelar</a>
+                    <a href="{{ redirect_url }}" class="btn btn-primary">Continuar a la URL</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
